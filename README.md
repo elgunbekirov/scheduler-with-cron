@@ -1,1 +1,1 @@
-# scheduler-with-cron
+# scheduler-service
