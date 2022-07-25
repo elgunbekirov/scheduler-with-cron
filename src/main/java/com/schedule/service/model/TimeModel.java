@@ -1,11 +1,11 @@
 package com.schedule.service.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalTime;
-
 @Data
+@AllArgsConstructor
 public class TimeModel {
-    LocalTime time;
+    String time;
     Integer bitmask;
 }

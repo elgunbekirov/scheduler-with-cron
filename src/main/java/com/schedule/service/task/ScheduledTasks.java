@@ -1,6 +1,8 @@
 package com.schedule.service.task;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.schedule.service.model.TimeModel;
@@ -51,7 +53,11 @@ public class ScheduledTasks {
 		ZonedDateTime zdt = ZonedDateTime.ofInstant(instant ,zoneId);
 		DayOfWeek dayOfWeek = zdt.getDayOfWeek();
 
-		List<TimeModel> actionCheckList = ReadCSV.getListFromCSVFile("data.csv");
+		List<TimeModel> actionCheckList = new ArrayList<>();// ReadCSV.getListFromCSVFile("data.csv");
+		if(actionCheckList == null || actionCheckList.size() == 0){
+			actionCheckList.add(new TimeModel("03:20", 2));
+			actionCheckList.add(new TimeModel("03:58", 5));
+		}
 
 		actionCheckList.
 				   stream()
@@ -61,8 +67,12 @@ public class ScheduledTasks {
 
 	@SneakyThrows
 	public void runImaginaryEvent(TimeModel timeModel, DayOfWeek dayOfWeek){
-		System.out.println(timeModel.getTime());
-		LOG.info("Imaginary action has been executed. Current time is = " + LocalDateTime.now());
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+		LocalTime localTime = LocalTime.now();
+		if(timeModel.getBitmask().equals(dayOfWeek.getValue()) &&  dtf.format(localTime).equals(timeModel.getTime())) {
+			LOG.info("Imaginary action has been executed. Current time is = " + LocalDateTime.now());
+		}
+
 	}
 
 }
